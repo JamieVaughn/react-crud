@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+.nav-extended .tabs .tab {float: right;}
+.nav-extended .tabs .tab a {
+  height: 48px;
+  width: auto;
+  padding: 0 15px;
+  margin: 0;
+}
+.nav-extended .tabs .tab a.icon {
+  width: 48px;
+}
