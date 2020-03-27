@@ -1,5 +1,5 @@
 
-const postReducer = (state, action) => {
+const postReducer = (state = {}, action) => {
     return state
 }
 

@@ -1,5 +1,5 @@
 
-const authReducer = (state, action) => {
+const authReducer = (state = {}, action) => {
     return state
 }
 
