@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 export default function Navbar(props) {
     return (
-        <nav className='nav-extended grey darken-3'>
+        <nav className='nav-extended blue-grey darken-3'>
             <div className="nav-wrapper">
                 <Link className="brand-logo" to="/" style={{position: 'static'}}>Bookmarks App</Link>
                 

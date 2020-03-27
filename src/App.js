@@ -14,13 +14,15 @@ function App() {
     <Router>
       <div className="App">
         <Navbar />
-        <Switch>
-          <Route exact path="/" component={Dashboard}/>
-          <Route path="/post/:id" component={PostDetails}/>
-          <Route path="/signin" component={SignIn}/>
-          <Route path="/signup" component={SignUp}/>
-          <Route path="/create" component={CreatePost}/>
-        </Switch>
+        <div className="content">
+          <Switch>
+            <Route exact path="/" component={Dashboard}/>
+            <Route path="/post/:id" component={PostDetails}/>
+            <Route path="/signin" component={SignIn}/>
+            <Route path="/signup" component={SignUp}/>
+            <Route path="/create" component={CreatePost}/>
+          </Switch>
+        </div>
       </div>
     </Router>
   );

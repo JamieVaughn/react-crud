@@ -1,11 +1,16 @@
 body {
-  background: steelblue;
-  min-height: 100%;
+  background: #82b1ff;
+  background: center / cover no-repeat url('/Milky-Way.jpg');
+  min-height: 100vh;
+  color: white;
 }
 .App {
   text-align: center;
 }
-
+.content {
+  padding: 1rem;
+  font-size: 1.5rem;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -48,9 +53,27 @@ body {
   margin: 0;
 }
 .nav-extended .tabs .tab a.icon {
-  width: 48px;
+  width: 49px;
+  line-height: 48px;
 }
 form {
   padding: 1rem;
   margin-top: 3rem;
+}
+
+.post {
+  font-size: 1rem;
+  color: #333;
+}
+
+.btn-floating.halfway-fab {
+  right: -1rem;
+  bottom: 50%;
+}
+
+.card.horizontal .card-image img {
+  max-height: 90%;
+}
+.card.horizontal {
+  max-height: 150px;
 }
