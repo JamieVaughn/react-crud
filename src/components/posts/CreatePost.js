@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { createPost } from '../../store/actions/postActions'
 
-export default function CreatePost(props) {
+function CreatePost(props) {
     const [post, setPost] = useState({})
     const [valid, setValid] = useState(true)
 
@@ -15,6 +17,7 @@ export default function CreatePost(props) {
     const handleSubmit = e => {
         e.preventDefault()
         console.log(post)
+        props.createPost(post)
     }
     const validate = e => {
         e.target.value.length > 40 ? setValid(false) : setValid(true)
@@ -53,3 +56,11 @@ export default function CreatePost(props) {
         </div>
     )
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        createPost: (post) => dispatch(createPost(post))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CreatePost)

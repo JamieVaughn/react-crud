@@ -10,6 +10,7 @@ export default function SignUp(props) {
 
     const handleChange = e => {
         console.log(e.target.id)
+        if(!validate(e)) return
         setCredentials({
             ...credentials,
             [e.target.id]: e.target.value
@@ -49,8 +50,7 @@ export default function SignUp(props) {
                     <input 
                     type="password" id="password" 
                     onChange={handleChange} 
-                    onFocus={validate} 
-                    onChange={validate}/>
+                    onFocus={validate} />
                 </div>
                 <div className='error' hidden={valid}>Password must be at Least 8 Characters</div>
                 <div className="input-field">

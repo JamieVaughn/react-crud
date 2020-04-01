@@ -5,8 +5,8 @@ import PostSummaryAlt from './PostSummaryAlt'
 export default function PostList(props) {
     return (
         <div className="row">
-                {[1,2,3,4].map(i => (
-                    <PostSummary key={i} link={i} title={'Title '+i}/>
+                {[12].map(i => (
+                    <PostSummaryAlt key={i} link={i} title={'Title '+i}/>
                 ))}
             
         </div>

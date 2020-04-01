@@ -70,13 +70,14 @@ form {
   width: 100%;
   justify-content: space-evenly;
 }
+.card-image {min-width: 25%}
 .card-content { padding: 1rem;}
 .card .card-action { padding: 0 1rem;}
 .btn-floating.halfway-fab {
-  right: -1rem;
+  right: -2rem;
   bottom: 50%;
 }
-
+.card svg {margin: 1rem;}
 .card.horizontal .card-image img {
   max-height: 90%;
 }

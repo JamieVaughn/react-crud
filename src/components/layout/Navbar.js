@@ -10,7 +10,7 @@ export default function Navbar(props) {
                 <Link className="brand-logo" to="/" style={{position: 'static'}}>Bookmarks App</Link>
                 
             </div>
-            <div class="nav-content">
+            <div className="nav-content">
                 <SignedInLinks />
                 <SignedOutLinks />
             </div>
