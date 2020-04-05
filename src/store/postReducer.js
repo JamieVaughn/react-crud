@@ -1,12 +1,5 @@
-import { bindActionCreators } from "redux"
 
-const initState = {
-    posts: [
-        {title: 'React Docs', link: 'reactjs.com', summary: 'These are the react docs', notes: 'blan blah blah'},
-        {title: 'Redux Docs', link: 'reactjs.com', summary: 'These are the react docs', notes: 'blan blah blah'},
-        {title: 'Firebase Docs', link: 'reactjs.com', summary: 'These are the react docs', notes: 'blan blah blah'},
-    ]
-}
+const initState = {}
 
 const postReducer = (state = initState, action) => {
     switch(action.type) {

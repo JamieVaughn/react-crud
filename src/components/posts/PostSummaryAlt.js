@@ -23,7 +23,9 @@ export default function PostSummaryAlt(props) {
                     <NavLink 
                     to={`/post/${props.link}`} 
                     className="btn-floating halfway-fab waves-effect waves-light orange"
-                    title="See Notes for this Post"><i className="material-icons">⇨</i></NavLink>
+                    title="See Notes for this Post">
+                        <i className="material-icons">⇨</i>
+                    </NavLink>
                 </div>
                 <div className="card-stacked">
                     <div className="card-content">
