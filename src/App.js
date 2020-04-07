@@ -7,37 +7,17 @@ import PostDetails from './components/posts/PostDetails'
 import SignIn from './components/auth/Signin'
 import SignUp from './components/auth/Signup'
 import CreatePost from './components/posts/CreatePost'
-// import firebase from 'firebase'
-
-// const asyncFetch = async (setter) => {
-//   const db = firebase.firestore()
-//   const data = await db.collection('posts').get()
-//   console.log(data)
-//   console.log(data.docs.map(d => d.data()))
-//   return data.length ? setter(data.docs.map(doc => doc.data())) : ''
-// }
-
-// const promiseFetch = (setter) => {
-//   firebase.firestore().collection('posts').get().then(data => {
-//     setter(data.docs.map(d => d.data()))
-//   })
-// }
+import firebase, { firestore } from 'firebase'
 
 function App() {
-  const [posts, setPosts] = useState([])
-
-  // useEffect(() => {
-  //   promiseFetch(setPosts)
-  //   console.log(posts)
-
-  // }, [])
+  
   return (
     <Router>
       <div className="App">
         <Navbar />
         <div className="content">
           <Switch>
-            <Route exact path="/" component={Dashboard}/>
+            <Route exact path="/" component={posts => <Dashboard firestore={firestore} posts={posts} />}/>
             <Route path="/post/:id" component={PostDetails}/>
             <Route path="/signin" component={SignIn}/>
             <Route path="/signup" component={SignUp}/>

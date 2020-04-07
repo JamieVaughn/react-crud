@@ -84,3 +84,7 @@ form {
 .card.horizontal {
   max-height: 150px;
 }
+
+.post-details {
+  color: black;
+}

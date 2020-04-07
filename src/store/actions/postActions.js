@@ -8,7 +8,7 @@ export const createPost = post => {
             authorFirstName: 'Jamie',
             authorLastName: 'Vaughn',
             authorId: 1234,
-            createdAt: new Date()
+            createdAt: new Date().toLocaleDateString()
         })
         .then(() => dispatch({type: 'CREATE_POST', payload: post}))
         .catch(err => dispatch({type: 'CREATE_ERROR', err}))

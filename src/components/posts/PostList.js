@@ -3,11 +3,13 @@ import PostSummary from './PostSummary'
 import PostSummaryAlt from './PostSummaryAlt'
 
 export default function PostList(props) {
+    console.log(props)
     return (
         <div className="row">
-                {[1, 2, 3, 4].map(i => (
-                    <PostSummaryAlt key={i} link={i} title={'Title '+i}/>
-                ))}
+                {props.posts.length ? props.posts.map(i => (
+                    <PostSummaryAlt key={i.id} post={i} />
+                )) :
+                <span>No Posts found!</span>}
             
         </div>
     )
