@@ -14,20 +14,24 @@ import firebase from '../../config/fbConfig'
 //   return data.length ? setter(data.docs.map(doc => doc.data())) : ''
 // }
 
-const promiseFetch = (setter) => {
-    firebase.firestore().collection('posts').get()
-    .then(data => {
-      console.log(data.docs.map(d => d.data()))
-      setter(data.docs.map(d => ({...d.data(), id: d.id}) ))
-    })
-  }
+
 
   function Dashboard(props) {
     const [posts, setPosts] = useState([])
+    const [error, setError] = useState(null)
 
     // useFirestoreConnect([{collection: 'posts', doc: props.postId}])
     // const posts = useSelector(state => state.firebase.ordered)
-
+    const promiseFetch = (setter) => {
+        firebase.firestore().collection('posts').get()
+        .then(data => {
+          console.log(data.docs.map(d => ({...d.data(), id: d.id}) ))
+          setter(data.docs.map(d => ({...d.data(), id: d.id}) ))
+        })
+        .catch(err => {
+            setError(err)
+        })
+      }
     useEffect(() => {
         promiseFetch(setPosts)
         console.log(posts)
@@ -35,6 +39,8 @@ const promiseFetch = (setter) => {
     
     // const { posts } = props
     console.log(props)
+    //if(error) return auth ? <UIErrorModal /> : <AuthErrorModal />
+
     return (
         <div className="dashboard container">
             <div className="row">

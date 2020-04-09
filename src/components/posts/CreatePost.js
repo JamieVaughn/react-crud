@@ -4,10 +4,10 @@ import { createPost } from '../../store/actions/postActions'
 
 function CreatePost(props) {
     const [post, setPost] = useState({})
-    const [valid, setValid] = useState(true)
+    const [valid, setValid] = useState(null)
+    const [feedback, setFeedback] = useState('')
 
     const handleChange = e => {
-        console.log(e.target.id)
         setPost({
             ...post,
             [e.target.id]: e.target.value
@@ -18,9 +18,11 @@ function CreatePost(props) {
         e.preventDefault()
         console.log(post)
         props.createPost(post)
+        setFeedback(validate(e) ? 'Post Created Successfully!' : 'Summary is too long!')
+        setPost({title: '', link: '', summary: '', notes: ''})
     }
     const validate = e => {
-        e.target.value.length > 40 ? setValid(false) : setValid(true)
+        post.summary < 40 ? setValid(false) : setValid(true)
     }
     return (
         <div className="container">
@@ -28,27 +30,55 @@ function CreatePost(props) {
                 <h5 className="grey-text text-darken-3">Create New Post</h5>
                 <div className="input-field">
                     <label>Title</label>
-                    <input type="text" id="title" autoComplete='off' onChange={handleChange}/>
+                    <input 
+                    required 
+                    type="text" 
+                    id="title" 
+                    autoComplete='off'
+                    value={post.title} 
+                    onChange={handleChange}/>
                 </div>
                 <div className="input-field">
                     <label>Link</label>
-                    <input type="text" autoComplete='off' id="link" onChange={handleChange}/>
+                    <input 
+                    required 
+                    type="text" 
+                    autoComplete='off' 
+                    id="link" 
+                    value={post.link}
+                    onChange={handleChange}/>
+                </div><div className="input-field">
+                    <label>Category</label>
+                    <input 
+                    required 
+                    type="text" 
+                    autoComplete='off' 
+                    id="category" 
+                    value={post.category}
+                    onChange={handleChange}/>
                 </div>
                 <div className="input-field">
                     <label>Summary</label>
                     <input type="text" 
+                    required
                     autoComplete='off'
                     maxLength={41}
                     id="summary" 
+                    value={post.summary}
                     onChange={handleChange} 
-                    onBlur={validate} 
                     />
                 </div>
                 <div className="input-field">
                     <label>Notes</label>
-                    <textarea type="text" autoComplete='off' id="notes" onChange={handleChange}/>
+                    <textarea 
+                    required 
+                    type="text" 
+                    autoComplete='off' 
+                    id="notes" 
+                    value={post.notes}
+                    onChange={handleChange}/>
                 </div>
-                <div className="error" hidden={valid}>Summary is too long!</div>
+                <div className="feedback" hidden={feedback.length === 0}>{feedback}</div>
                 <div className="input-field">
                     <button className="btn blue lighten-1 z-depth-0">Submit</button>
                 </div>
