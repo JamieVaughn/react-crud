@@ -94,3 +94,6 @@ form.white .feedback {
 .small-text {
   font-size: 0.75em;
 }
+.hidden {
+  display: none;
+}

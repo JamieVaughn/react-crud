@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { signOut } from '../../store/actions/authActions'
 
 function SignedInLinks(props) {
-    const { signOut } = props
+    const { signOut, profile } = props
+    console.log(props)
     const handleSignOut = () => {
         signOut()
     }

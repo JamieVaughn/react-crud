@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import {signIn} from '../../store/actions/authActions'
-import {firebaseConnect, firestoreConnect } from 'react-redux-firebase'
+import {useFirebaseConnect, firebaseConnect, useFirestoreConnect } from 'react-redux-firebase'
 import { Redirect } from 'react-router-dom'
 
 function SignIn(props) {
@@ -63,7 +63,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 
     return {
-        signIn: authData => dispatch(signIn(authData))
+        signIn: authData => dispatch(signIn(authData)),
     }
 }
 

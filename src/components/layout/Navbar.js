@@ -1,6 +1,6 @@
 import React from 'react'
-import SignedInLinks from './SignedInLink'
-import SignedOutLinks from './SignOutLink'
+import SignedInLinks from './SignedInLinks'
+import SignedOutLinks from './SignedOutLinks'
 import { Link } from 'react-router-dom'
 import { firebaseConnect } from 'react-redux-firebase'
 import {compose} from 'redux'

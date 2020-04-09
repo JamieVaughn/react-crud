@@ -16,8 +16,7 @@ firebase.firestore()
 //   firebase.analytics();
 
 const rrfConfig = {
-  userProfile: 'users', 
-  posts: 'posts',
+  userProfile: 'users',
   useFirestoreForProfile: true,
   attachAuthIsReady: true
 }
