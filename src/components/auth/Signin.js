@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import {signIn} from '../../store/actions/authActions'
+import {firebaseConnect, firestoreConnect } from 'react-redux-firebase'
+import { Redirect } from 'react-router-dom'
 
-export default function SignIn(props) {
+function SignIn(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -8,13 +13,21 @@ export default function SignIn(props) {
     const handlePass = e => setPassword(e.target.value)
     const handleSubmit = e => {
         e.preventDefault()
-        console.log(email, password)
+        console.log(email, password, props)
+        const authData = {
+            firebase: props.firebase,
+            credentials: {email, password}
+        }
+        props.signIn(authData)
+        setPassword('')
     }
     // const styles = {
     //     padding: '1rem',
     //     marginTop: '3rem'
     // }
     // put style={styles} as an attr on the <form>
+
+    if(props.auth.uid) return <Redirect to='/' />
     return (
         <div className="container">
             <form className="white" onSubmit={handleSubmit}>
@@ -30,7 +43,31 @@ export default function SignIn(props) {
                 <div className="input-field">
                     <button className="btn blue lighten-1 z-depth-0">Login</button>
                 </div>
+                <div className='red-text center'>
+                    {props.authError || ''}
+                </div>
             </form>
         </div>
     )
 }
+
+const mapStateToProps = state => {
+
+    return {
+        authError: state.auth.authError,
+        auth: state.firebase.auth,
+        firebase: state.firebase
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+
+    return {
+        signIn: authData => dispatch(signIn(authData))
+    }
+}
+
+export default compose(
+    // firebaseConnect(),
+    connect(mapStateToProps, mapDispatchToProps)
+)(SignIn)

@@ -91,3 +91,6 @@ form.white .feedback {
 .post-details {
   color: black;
 }
+.small-text {
+  font-size: 0.75em;
+}

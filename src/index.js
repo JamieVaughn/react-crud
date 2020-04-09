@@ -16,10 +16,13 @@ firebase.firestore()
 //   firebase.analytics();
 
 const rrfConfig = {
-  userProfile: 'posts', 
-  useFirestoreForProfile: true
+  userProfile: 'users', 
+  posts: 'posts',
+  useFirestoreForProfile: true,
+  attachAuthIsReady: true
 }
- const createStoreWithFirebase = compose(
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+ const createStoreWithFirebase = composeEnhancers(
    reduxFirestore(firebase, rrfConfig),
    applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore}))
  )(createStore)
@@ -38,7 +41,7 @@ const rrfProps = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}> {/* this is like the .getState() call */console.log(store.getState())}
+    <Provider store={store}> {/* this is like the .getState() call */console.log('Store'), console.dir(store.getState())}
       <ReduxFirestoreProvider {...rrfProps}>
         <App />
       </ReduxFirestoreProvider>

@@ -1,4 +1,9 @@
-const signIn = ({credentials, firebase}) => (dispatch, getState) => {
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
+export const signIn = (authData) => (dispatch, getState) => {
+    const {credentials} = authData
+    console.log(authData)
     firebase.auth().signInWithEmailAndPassword(
         credentials.email,
         credentials.password
@@ -9,24 +14,24 @@ const signIn = ({credentials, firebase}) => (dispatch, getState) => {
     })
 }
 
-const signOut = firebase => (dispatch, getState) => {
+export const signOut = () => (dispatch, getState) => {
     firebase.auth().signOut().then(() => {
         dispatch({type: 'SIGNOUT_SUCCESS'})
     }).catch(err => console.log(err))
 }
 
-const signUp = (newUser, firebase) => (dispatch, getState, {getFirestore}) => {
+export const signUp = (newUser) => (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore()
     firebase.auth().createUserWithEmailAndPassword(
         newUser.email,
         newUser.password
-    ).then(resp => firestore.collection('user').doc(resp.user.id).set({
+    ).then(resp => firestore.collection('users').doc(resp.user.id).set({
         firstName: newUser.firstName,
         lastName: newUser.lastName,
-        fullName: `${newUser.firstName[0]} ${newUser.lastName}`
-    }))
-    .then(data => dispatch({type: 'SIGNUP_SUCCESS'}))
-    .catch(err => {
-        dispatch({type: 'SIGNUP_ERROR'})
+        fullName: `${newUser.firstName} ${newUser.lastName}`
+    })).then(data => {
+        dispatch({type: 'SIGNUP_SUCCESS'})
+    }).catch(err => {
+        dispatch({type: 'SIGNUP_ERROR'}, err)
     })
 }

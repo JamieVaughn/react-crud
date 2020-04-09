@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
+import { signUp } from '../../store/actions/authActions'
+import {compose} from 'redux'
+import {firebaseConnect } from 'react-redux-firebase'
+import { connect } from 'react-redux'
+import { Redirect} from 'react-router-dom'
 
-export default function SignUp(props) {
+function SignUp(props) {
     const [credentials, setCredentials] = useState({})
     const [valid, setValid] = useState(true)
     // const [email, setEmail] = useState('')
@@ -8,9 +13,8 @@ export default function SignUp(props) {
     // const [first, setFirst] = useState('')
     // const [last, setLast] = useState('')
 
+
     const handleChange = e => {
-        console.log(e.target.id)
-        if(!validate(e)) return
         setCredentials({
             ...credentials,
             [e.target.id]: e.target.value
@@ -23,13 +27,15 @@ export default function SignUp(props) {
     // const handleLast = e => setLast(e.target.value)
     const handleSubmit = e => {
         e.preventDefault()
-        console.log(credentials)
+        // if(!validate(credentials.password)) console.log('password too short')
+        console.log({...credentials, password: '*****'})
+        props.signUp(credentials, props.firebase)
     }
     
-    const validate = e => {
-        e.target.value.length < 8 ? setValid(false) : setValid(true)
+    const validate = password => {
+        password.length < 8 ? setValid(false) : setValid(true)
     }
-
+    if(props.auth.uid) return <Redirect to='/' />
     return (
         <div className="container">
             <form className="white" onSubmit={handleSubmit}>
@@ -52,11 +58,31 @@ export default function SignUp(props) {
                     onChange={handleChange} 
                     onFocus={validate} />
                 </div>
-                <div className='error' hidden={valid}>Password must be at Least 8 Characters</div>
+                <div className='feedback' hidden={valid}>Password must be at Least 8 Characters</div>
                 <div className="input-field">
                     <button className="btn blue lighten-1 z-depth-0">Sign Up</button>
+                </div>
+                <div className='red-text center'>
+                    {props.authError || ''}
                 </div>
             </form>
         </div>
     )
 }
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth,
+        firebase: state.firebase
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signUp: (newUser) => dispatch(signUp(newUser))
+    }
+}
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps)
+)(SignUp)

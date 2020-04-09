@@ -5,6 +5,7 @@ import { connect, useSelector } from 'react-redux'
 import {compose} from 'redux'
 import {firestoreConnect, useFirestoreConnect, withFirestore, isLoaded, isEmpty} from 'react-redux-firebase'
 import firebase from '../../config/fbConfig'
+import {Redirect} from 'react-router-dom'
 
 // const asyncFetch = async (setter) => {
 //   const db = firebase.firestore()
@@ -13,8 +14,6 @@ import firebase from '../../config/fbConfig'
 //   console.log(data.docs.map(d => d.data()))
 //   return data.length ? setter(data.docs.map(doc => doc.data())) : ''
 // }
-
-
 
   function Dashboard(props) {
     const [posts, setPosts] = useState([])
@@ -25,7 +24,6 @@ import firebase from '../../config/fbConfig'
     const promiseFetch = (setter) => {
         firebase.firestore().collection('posts').get()
         .then(data => {
-          console.log(data.docs.map(d => ({...d.data(), id: d.id}) ))
           setter(data.docs.map(d => ({...d.data(), id: d.id}) ))
         })
         .catch(err => {
@@ -34,13 +32,11 @@ import firebase from '../../config/fbConfig'
       }
     useEffect(() => {
         promiseFetch(setPosts)
-        console.log(posts)
     }, [])
     
-    // const { posts } = props
-    console.log(props)
-    //if(error) return auth ? <UIErrorModal /> : <AuthErrorModal />
-
+    if(!props.auth.uid) return <Redirect to='/signin' />
+    if(error) return <div className='red-text'>There was a problem fetching your posts!</div>
+    //if(error) return error ? <UIErrorModal /> : <AuthErrorModal />
     return (
         <div className="dashboard container">
             <div className="row">
@@ -56,9 +52,10 @@ import firebase from '../../config/fbConfig'
 }
 
 const mapStateToProps = (state, props) => {
-    console.log(state, props)
+    console.dir(state)
     return {
-        posts: state.firebase.ordered.posts
+        posts: state.firebase.ordered.posts,
+        auth: state.firebase.auth
     }
 }
 

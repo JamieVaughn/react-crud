@@ -10,7 +10,6 @@ import CreatePost from './components/posts/CreatePost'
 import firebase, { firestore } from 'firebase'
 
 function App() {
-  
   return (
     <Router>
       <div className="App">
@@ -23,7 +22,6 @@ function App() {
             <Route path="/signup" component={SignUp}/>
             <Route path="/create" component={CreatePost}/>
           </Switch>
-          {/* {posts.map(i => (console.log(i), <span key={i.title}>{i.title +'-'+ i.link}</span>))} */}
         </div>
       </div>
     </Router>
