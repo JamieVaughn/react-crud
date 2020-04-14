@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import {signIn} from '../../store/actions/authActions'
+import { NavLink } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
-export default function SignIn(props) {
+function SignIn(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -9,12 +13,20 @@ export default function SignIn(props) {
     const handleSubmit = e => {
         e.preventDefault()
         console.log(email, password)
+        const authData = {
+            credentials: {email, password},
+            firebase: props.firebase
+        }
+        props.signIn(authData)
+        setPassword('')
     }
     // const styles = {
     //     padding: '1rem',
     //     marginTop: '3rem'
     // }
     // put style={styles} as an attr on the <form>
+    if(props.auth.uid) return <Redirect to='/' />
+
     return (
         <div className="container">
             <form className="white" onSubmit={handleSubmit}>
@@ -29,8 +41,28 @@ export default function SignIn(props) {
                 </div>
                 <div className="input-field">
                     <button className="btn blue lighten-1 z-depth-0">Login</button>
+                    <NavLink className='text-small' to='/signup'>Don't have an account?<br /> click here.</NavLink>
                 </div>
             </form>
         </div>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        authError: state.auth.authError,
+        auth: state.firebase.auth,
+        firebase: state.firebase
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signIn: authData => dispatch(signIn(authData))
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignIn)

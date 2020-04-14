@@ -2,12 +2,16 @@
 export const createPost = post => {
     return (dispatch, getState, {getFirestore}) => {
         //make async call to db
+        console.log(post)
+        const profile = getState().firebase.profile
+        const authorId = getState().firebase.auth.uid
+        console.log(profile, authorId)
         const firestore = getFirestore();
         firestore.collection('posts').add({
             ...post,
-            authorFirstName: 'Jamie',
-            authorLastName: 'Vaughn',
-            authorId: 1234,
+            authorFirstName: profile.firstName,
+            authorLastName: profile.lastName,
+            authorId: authorId,
             createdAt: new Date().toLocaleDateString()
         })
         .then(() => dispatch({type: 'CREATE_POST', payload: post}))

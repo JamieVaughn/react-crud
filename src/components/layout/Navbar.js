@@ -8,7 +8,7 @@ import {connect} from 'react-redux'
 
 function Navbar(props) {
     const {auth, profile } = props
-    console.log(auth, profile)
+    console.log(profile ? props : null)
 
     return (
         <nav className='nav-extended blue-grey darken-3'>

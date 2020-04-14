@@ -1,15 +1,23 @@
 
-const initState = {}
+const initState = {
+    createError: null
+}
 
 const postReducer = (state = initState, action) => {
     switch(action.type) {
         case 'CREATE_POST':
             console.log('create post', action.payload)
-            return state
+            return {
+                ...state,
+                createError: null
+            }
             // return Object.assign({/*takes both*/}, state, {count: 1})
         case 'CREATE_ERROR':
             console.log('error on create', action.err)
-            return state
+            return {
+                ...state,
+                createError: 'There was a problem posting your link.'
+            }
         default: 
             return state
     }

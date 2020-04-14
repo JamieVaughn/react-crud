@@ -5,6 +5,7 @@ import { connect, useSelector } from 'react-redux'
 import {compose} from 'redux'
 import {firestoreConnect, useFirestoreConnect, withFirestore, isLoaded, isEmpty} from 'react-redux-firebase'
 import firebase from '../../config/fbConfig'
+import {Redirect} from 'react-router-dom'
 
 // const asyncFetch = async (setter) => {
 //   const db = firebase.firestore()
@@ -25,7 +26,6 @@ import firebase from '../../config/fbConfig'
     const promiseFetch = (setter) => {
         firebase.firestore().collection('posts').get()
         .then(data => {
-          console.log(data.docs.map(d => ({...d.data(), id: d.id}) ))
           setter(data.docs.map(d => ({...d.data(), id: d.id}) ))
         })
         .catch(err => {
@@ -34,18 +34,16 @@ import firebase from '../../config/fbConfig'
       }
     useEffect(() => {
         promiseFetch(setPosts)
-        console.log(posts)
     }, [])
-    
-    // const { posts } = props
-    console.log(props)
-    //if(error) return auth ? <UIErrorModal /> : <AuthErrorModal />
+
+    // if(error) return auth ? <UIErrorModal /> : <AuthErrorModal />
+    if(!props.auth.uid) return <Redirect to='/signin' />
 
     return (
         <div className="dashboard container">
             <div className="row">
                 <div className="col s12 m6">
-                    <PostList posts={posts} />
+                    <PostList posts={posts} status={error?.message || posts.length ? '200 OK' :  'Loading'}/>
                 </div>
                 <div className="col s12 m4 offset-m2">
                     <Notifications />
@@ -56,9 +54,9 @@ import firebase from '../../config/fbConfig'
 }
 
 const mapStateToProps = (state, props) => {
-    console.log(state, props)
     return {
-        posts: state.firebase.ordered.posts
+        posts: state.firebase.ordered.posts,
+        auth: state.firebase.auth
     }
 }
 

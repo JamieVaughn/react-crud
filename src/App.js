@@ -7,6 +7,7 @@ import PostDetails from './components/posts/PostDetails'
 import SignIn from './components/auth/Signin'
 import SignUp from './components/auth/Signup'
 import CreatePost from './components/posts/CreatePost'
+import Profile from './components/dashboard/Profile'
 import firebase, { firestore } from 'firebase'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/signin" component={SignIn}/>
             <Route path="/signup" component={SignUp}/>
             <Route path="/create" component={CreatePost}/>
+            <Route path="/profile" component={Profile}/>
           </Switch>
           {/* {posts.map(i => (console.log(i), <span key={i.title}>{i.title +'-'+ i.link}</span>))} */}
         </div>

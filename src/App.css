@@ -91,3 +91,14 @@ form.white .feedback {
 .post-details {
   color: black;
 }
+.input-field {
+  display: flex;
+  justify-content: space-around;
+}
+.hidden {
+  display: none;
+}
+
+.text-small {
+  font-size: .75em;
+}

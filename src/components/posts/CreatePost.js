@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { createPost } from '../../store/actions/postActions'
+import {Redirect} from 'react-router-dom'
+
+const blankPost = {title: '', link: '', category: '', summary: '', notes: ''}
 
 function CreatePost(props) {
-    const [post, setPost] = useState({})
-    const [valid, setValid] = useState(null)
+    const [post, setPost] = useState(blankPost)
+    const [valid, setValid] = useState(true)
     const [feedback, setFeedback] = useState('')
 
     const handleChange = e => {
+        if(e.target.id === 'summary') validate()
         setPost({
             ...post,
             [e.target.id]: e.target.value
@@ -17,13 +21,21 @@ function CreatePost(props) {
     const handleSubmit = e => {
         e.preventDefault()
         console.log(post)
+        if(!valid || props.createError) {
+            console.log('invalid post', props.createError)
+            setFeedback(props.createError)
+            return
+        }
+        setFeedback('Post Created Successfully!')
         props.createPost(post)
-        setFeedback(validate(e) ? 'Post Created Successfully!' : 'Summary is too long!')
-        setPost({title: '', link: '', summary: '', notes: ''})
+        setPost(blankPost)
     }
-    const validate = e => {
-        post.summary < 40 ? setValid(false) : setValid(true)
+    const validate = () => {
+        setValid(post.summary.length <= 40 ? true : false)
     }
+
+    if(!props.auth.uid) return <Redirect to='/signin' />
+
     return (
         <div className="container">
             <form className="white" onSubmit={handleSubmit}>
@@ -78,7 +90,7 @@ function CreatePost(props) {
                     value={post.notes}
                     onChange={handleChange}/>
                 </div>
-                <div className="feedback" hidden={feedback.length === 0}>{feedback}</div>
+                <div className={`feedback ${valid && !feedback ? 'hidden' : ''}`}>{feedback}</div>
                 <div className="input-field">
                     <button className="btn blue lighten-1 z-depth-0">Submit</button>
                 </div>
@@ -87,10 +99,17 @@ function CreatePost(props) {
     )
 }
 
+const mapStateToProps = state => {
+    return {
+        auth: state.firebase.auth,
+        createError: state.createError
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         createPost: (post) => dispatch(createPost(post))
     }
 }
 
-export default connect(null, mapDispatchToProps)(CreatePost)
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)

@@ -7,11 +7,11 @@ export const fbConfig = {
     apiKey: process.env.REACT_APP_FIRESTORE_APIKEY,
     authDomain: process.env.REACT_APP_DOMAIN,
     databaseURL: process.env.REACT_APP_DB_URL,
-    projectId: "rf-bookmarks",
-    storageBucket: "rf-bookmarks.appspot.com",
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_MSGSENDERID,
-    appId: "1:89112768323:web:6acb8c0973b9098ebd49f6",
-    measurementId: "G-T0L6HC2SHC"
+    appId: process.env.REACT_APP_APP_ID,
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID
   };
 
   // Initialize Firebase
