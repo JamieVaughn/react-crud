@@ -84,9 +84,6 @@ form.white .feedback {
 .card.horizontal .card-image img {
   max-height: 90%;
 }
-.card.horizontal {
-  max-height: 150px;
-}
 
 .post-details {
   color: black;
@@ -101,4 +98,11 @@ form.white .feedback {
 
 .text-small {
   font-size: .75em;
+}
+
+.notifications {
+  color: #444;
+}
+.notification li {
+  margin: 8px auto;
 }

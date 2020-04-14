@@ -5,7 +5,7 @@ import PostSummary from './PostSummary';
 
 function getIcon(str) {
     //https://simpleicons.org/?q=git <- search for more icon codes here
-    const categories= ['HTML5', 'CSS3', 'CSS Wizardry', 'Git', 'webcomponents.org', 'Material Design', 'Bootstrap', 'Bulma', 'GitHub', 'Amazon AWS', 'JSON', 'Redux', 'Javascript', 'SVG', 'Visual Studio Code', 'freeCodeCamp', 'CodeSandbox', 'CodePen', 'Firebase', 'NPM', 'Node.js', 'React', 'React Router', 'Angular', 'Vue.js'];
+    const categories= ['HTML5', 'CSS3', 'CSS Wizardry', 'Git', 'webcomponents.org', 'Material Design', 'Bootstrap', 'Bulma', 'GitHub', 'Amazon AWS', 'JSON', 'Redux', 'Javascript', 'SVG', 'SpaceX', 'Visual Studio Code', 'freeCodeCamp', 'CodeSandbox', 'CodePen', 'Firebase', 'NPM', 'Node.js', 'React', 'React Router', 'Angular', 'Vue.js'];
     // let icon = simpleIcons.get(categories[Math.floor(categories.length * Math.random())]);
     str = categories.includes(str) ? str : 'Pinboard'
     let icon = simpleIcons.get(str)

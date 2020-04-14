@@ -2,10 +2,12 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { signOut } from '../../store/actions/authActions'
 import { connect } from 'react-redux'
+import {compose } from 'redux'
+import {firebaseConnect} from 'react-redux-firebase'
 
 function SignedInLinks(props) {
-    const { signOut, profile } = props
-    const handleSignOut = () => signOut()
+    const { signOut, profile, firebase } = props
+    const handleSignOut = () => signOut(firebase)
 
     return (
         <ul className="tabs tabs-transparent">
@@ -24,11 +26,11 @@ function SignedInLinks(props) {
 
 const mapDispatchToProps = dispatch => {
     return {
-        signOut: () => dispatch(signOut())
+        signOut: firebase => dispatch(signOut(firebase))
     }
 }
 
-export default connect(
-    null, 
-    mapDispatchToProps
+export default compose(
+    firebaseConnect(),
+    connect( null, mapDispatchToProps)
 )(SignedInLinks)

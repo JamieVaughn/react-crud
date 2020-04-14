@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 export const signIn = (authData) => (dispatch, getState) => {
-    const {credentials} = authData
+    const {credentials, firebase} = authData
     console.log(authData)
     firebase.auth().signInWithEmailAndPassword(
         credentials.email,
@@ -14,13 +14,14 @@ export const signIn = (authData) => (dispatch, getState) => {
     })
 }
 
-export const signOut = () => (dispatch, getState) => {
+export const signOut = firebase => (dispatch, getState) => {
+    console.log(dispatch)
     firebase.auth().signOut().then(() => {
         dispatch({type: 'SIGNOUT_SUCCESS'})
     }).catch(err => console.log(err))
 }
 
-export const signUp = (newUser) => (dispatch, getState, {getFirestore}) => {
+export const signUp = (newUser, firebase) => (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore()
     firebase.auth().createUserWithEmailAndPassword(
         newUser.email,

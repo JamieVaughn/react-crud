@@ -19,13 +19,15 @@ import {Redirect} from 'react-router-dom'
 
   function Dashboard(props) {
     const [posts, setPosts] = useState([])
+    const [notifications, setNotifications] = useState([])
     const [error, setError] = useState(null)
 
     // useFirestoreConnect([{collection: 'posts', doc: props.postId}])
     // const posts = useSelector(state => state.firebase.ordered)
-    const promiseFetch = (setter) => {
-        firebase.firestore().collection('posts').get()
-        .then(data => {
+    const promiseFetch = (setter, collection, limit) => {
+        var db = firebase.firestore().collection(collection)
+        if(limit) db = db.limit(limit)
+        db.get().then(data => {
           setter(data.docs.map(d => ({...d.data(), id: d.id}) ))
         })
         .catch(err => {
@@ -33,7 +35,8 @@ import {Redirect} from 'react-router-dom'
         })
       }
     useEffect(() => {
-        promiseFetch(setPosts)
+        promiseFetch(setPosts, 'posts')
+        promiseFetch(setNotifications, 'notifications', 3)
     }, [])
 
     // if(error) return auth ? <UIErrorModal /> : <AuthErrorModal />
@@ -42,11 +45,11 @@ import {Redirect} from 'react-router-dom'
     return (
         <div className="dashboard container">
             <div className="row">
-                <div className="col s12 m6">
+                <div className="col s12 m8">
                     <PostList posts={posts} status={error?.message || posts.length ? '200 OK' :  'Loading'}/>
                 </div>
-                <div className="col s12 m4 offset-m2">
-                    <Notifications />
+                <div className="col s12 m3 offset-m1">
+                    <Notifications notifications={notifications}/>
                 </div>
             </div>
         </div>
@@ -56,7 +59,8 @@ import {Redirect} from 'react-router-dom'
 const mapStateToProps = (state, props) => {
     return {
         posts: state.firebase.ordered.posts,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        notifications: state.firebase.ordered.notifications
     }
 }
 
@@ -65,12 +69,14 @@ export default connect(mapStateToProps)(Dashboard)
 // export default compose(
 //     connect(mapStateToProps),
 //     firestoreConnect([
-//         {collection: 'posts'}
+//         {collection: 'posts'},
+//         {collection: 'notifications', limit: 3}
 //     ]))(Dashboard)
 
 // export default compose(
-//     withFirestore,
+//     connect(mapStateToProps),
 //     connect(state => ({
-//         posts: state.firestore.ordered.posts
+//         posts: state.firebase.ordered.posts,
+//         notifications: state.firebase.ordered.posts
 //     }))
 // )(Dashboard)
