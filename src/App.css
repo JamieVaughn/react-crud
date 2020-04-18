@@ -102,3 +102,13 @@ form.white .feedback {
 .text-small {
   font-size: .75em;
 }
+
+.notifications {
+  color: #444;
+}
+.notifications h3 {
+  margin-top: 0;
+}
+.notification li {
+  margin: 8px auto;
+}

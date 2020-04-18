@@ -3,7 +3,6 @@ import Notifications from './Notifications'
 import PostList from '../posts/PostList'
 import { connect, useSelector } from 'react-redux'
 import {compose} from 'redux'
-import {firestoreConnect, useFirestoreConnect, withFirestore, isLoaded, isEmpty} from 'react-redux-firebase'
 import firebase from '../../config/fbConfig'
 import {Redirect} from 'react-router-dom'
 
@@ -19,12 +18,16 @@ import {Redirect} from 'react-router-dom'
 
   function Dashboard(props) {
     const [posts, setPosts] = useState([])
+    const [notifications, setNotifications] = useState([])
     const [error, setError] = useState(null)
 
     // useFirestoreConnect([{collection: 'posts', doc: props.postId}])
     // const posts = useSelector(state => state.firebase.ordered)
-    const promiseFetch = (setter) => {
-        firebase.firestore().collection('posts').get()
+    const promiseFetch = (setter, collection, order, limit) => {
+        let db = firebase.firestore().collection(collection)
+        if(order) db = db.orderBy(order[0], order[1])
+        if(limit) db = db.limit(limit)
+        db.get()
         .then(data => {
           setter(data.docs.map(d => ({...d.data(), id: d.id}) ))
         })
@@ -33,7 +36,8 @@ import {Redirect} from 'react-router-dom'
         })
       }
     useEffect(() => {
-        promiseFetch(setPosts)
+        promiseFetch(setPosts, 'posts')
+        promiseFetch(setNotifications, 'notifications', ['time', 'desc'], 3)
     }, [])
 
     // if(error) return auth ? <UIErrorModal /> : <AuthErrorModal />
@@ -46,7 +50,7 @@ import {Redirect} from 'react-router-dom'
                     <PostList posts={posts} status={error?.message || posts.length ? '200 OK' :  'Loading'}/>
                 </div>
                 <div className="col s12 m4 offset-m2">
-                    <Notifications />
+                    <Notifications notifications={notifications}/>
                 </div>
             </div>
         </div>

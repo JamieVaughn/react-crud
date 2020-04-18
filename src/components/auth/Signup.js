@@ -69,7 +69,7 @@ function SignUp(props) {
                     <label>Password</label>
                     <input 
                     required
-                    minLength='8'
+                    // minLength='8'
                     type="password" id="password" 
                     onChange={handleChange} />
                 </div>
